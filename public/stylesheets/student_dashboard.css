@@ -1,0 +1,12 @@
+body {
+    background-image: url('/images/pic.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+.card {
+    background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
+}
+.fc-event-title {
+    font-size: 8px;
+}

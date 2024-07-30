@@ -1,0 +1,72 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<script src="/javascripts/profileScript.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/tutor_dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+<!-- Main content -->
+<div class="container mt-1">
+    <div class="d-flex">
+        <!-- Tutor Panel -->
+        <div class="p-3 border rounded" style="min-width: 200px; height: 1000px; background-color: lightcoral;">
+            <div class="d-flex flex-column align-items-center mb-4">
+                <span class="mt-2 text-white">Welcome <%= user.username %></span>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-4">
+                    <a class="nav-link text-white" href="/users/notifications"><i class="fas fa-tachometer-alt mr-2"></i> Notifications</a>
+                </li>
+                <li class="nav-item mb-4">
+                  <a class="nav-link text-white" href="/users/view-ratings"><i class="fas fa-star mr-2"></i> Ratings</a>
+                </li>
+                <li class="nav-item mb-4">
+                  <a class="nav-link text-white" href="/users/messages"><i class="fas fa-envelope mr-2"></i> Messages</a>
+              </li>
+              
+                <li class="nav-item mb-4">
+                    <a class="nav-link text-white" href="/users/profile-settings" id="profileSettingsBtn"><i class="fas fa-user-cog mr-2"></i> Profile Settings</a>
+                </li>
+                <li class="nav-item mb-4">
+                    <a class="nav-link text-white" href="/users/help"><i class="fas fa-question-circle mr-2"></i> About Us</a>
+                </li>
+            </ul>
+        </div>
+        <div >
+            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="/images/pic.jpg" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="/images/pic2.jpg" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="/images/pic3.jpg" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <div class= "custom-card" style="width: 18rem;">
+                <img src="/images/laptop.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Designed for both Tutors and Students</h5>
+                  <p class="card-text">Take your lessons to the next level! Share multimedia content with your students, track progress, and provide feedback.</p>
+                  <p class="card-text">Every feature is available on the go! Tutor Platform is fully featured across all mobile, tablet and computer devices.</p>
+                  <p class="card-text">Tutor Platform is always on and ready, even when you’re not. No more late night cancellation calls from parents. Let Tutor Platform handle it.</p>
+
+                </div>
+              </div>
+        </div>
+
+    </div>
+
+</div>

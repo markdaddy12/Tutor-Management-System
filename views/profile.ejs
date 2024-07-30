@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+    
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/profile.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>User Profile</title>
+   
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Your Profile</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Personal Information</h5>
+            <p><strong>Name:</strong> <%= user.name %></p>
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>Phone:</strong> <%= user.phone %></p>
+            <p><strong>Address:</strong> <%= user.address %></p>
+            <p><strong>Time Zone:</strong> <%= user.timezone %></p>
+
+            <h5 class="card-title mt-4">Professional Details</h5>
+            <p><strong>Bio:</strong> <%= user.bio %></p>
+            <p><strong>Experience Summary:</strong> <%= user.experience %></p>
+            <p><strong>Courses I Can Teach:</strong> <%= user.courses %></p>
+            <p><strong>Teaching Approach:</strong> <%= user.teachingApproach %></p>
+
+        </div>
+    </div>
+
+   
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

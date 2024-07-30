@@ -1,0 +1,201 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/student_dashboard.css">
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5/main.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5/main.min.css" rel="stylesheet" />
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:  rgba(255, 255, 255, 0.5);">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="/images/logobg.png" alt="Logo" style="width: 200px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/edit-profile">Edit Profile</a>
+                </li>
+             
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/notifications">Notifications</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              
+              
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/sent-messages"><i class="fas fa-envelope mr-2"></i>Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/login"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5" >
+
+    <!-- Search form for tutors -->
+    <div class="card p-4 mb-4">
+        <h4>Find Tutors:</h4>
+        <form action="/users/search-tutors" method="post" class="mt-3">
+            <div class="form-group mb-3">
+                <label for="courses">Select Course:</label>
+                <select name="courses" class="form-control">
+                    <option value="Math">Math</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                    <option value="Geography">Geography</option>
+                    <option value="Physics">Physics</option>
+                    <!-- Add other courses as needed -->
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="timezone">Select Time Zone:</label>
+                <select name="timezone" class="form-control">
+                    <option value="UTC">UTC</option>
+                    <option value="PST">PST</option>
+                    <option value="EST">EST</option>
+                    <!-- Add other timezones as needed -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    <!-- Displaying tutors -->
+    <h3 class="mb-4">Available Tutors:</h3>
+    <div class="row">
+        <% if(tutors && tutors.length > 0) { %>
+            <% tutors.forEach(tutor => { %>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title">Name: <%= tutor.name %></h4>
+                            <p class="card-text"><%= tutor.bio %></p>
+                            <p class="card-text">Contact Number: <%= tutor.phone %></p>
+                            <p class="card-text">Address: <%= tutor.address %></p>
+                            <p class="card-text">TimeZone: <%= tutor.timezone %></p>
+                            <p class="card-text">Courses: <%= tutor.courses %></p>
+                            <div class="mt-2">
+                                <div style="background-color: white;" id='calendar-<%= tutor._id %>'></div>
+                            </div>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#messageModal-<%= tutor._id %>">Message</button>
+                            <div class="modal" id="messageModal-<%= tutor._id %>">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Send a message to <%= tutor.name %></h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <textarea id="messageContent-<%= tutor._id %>" class="form-control" placeholder="Type your message here..."></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="sendMessage('<%= tutor._id %>')">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </div>
+
+                </div>
+                
+            <% }); %>
+        <% } else { %>
+            <div class="col-12">
+                <p>No tutors found.</p>
+            </div>
+        <% } %>
+        
+    </div>
+    <div id='calendar' style="background-color: whitesmoke;"></div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const tutorsData = JSON.parse(unescape('<%= escape(JSON.stringify(tutors)) %>'));
+</script>
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+            tutorsData.forEach(tutor => {
+                var calendarEl = document.getElementById('calendar-' + tutor._id);
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: '/users/get-tutor-slots/' + tutor._id,
+                    displayEventTime: false,
+                    eventClick: function(info) {
+                        const fromTime = info.event.start.toISOString().split('T')[1].substring(0, 5);
+                        const toTime = info.event.end.toISOString().split('T')[1].substring(0, 5);
+
+                        if (confirm(`Do you want to book the slot from ${fromTime} to ${toTime} with ${info.event.title.split(' ')[0]}?`)) {
+                            $.post("/users/book-appointment", {
+                                tutorId: tutor._id,
+                                fromTime: fromTime,
+                                toTime: toTime
+                            }, function(response) {
+                                if(response.success) {
+                                    alert("Appointment request sent to " + tutor.name);
+                                } else {
+                                    alert("Failed to book the appointment.");
+                                }
+                            });
+                        }
+                    }
+                });
+                calendar.render();
+            });
+        });
+    
+
+    </script>
+    <script>
+        function sendMessage(tutorId) {
+    const messageContent = document.getElementById(`messageContent-${tutorId}`).value;
+
+    if (!messageContent.trim()) {
+        alert("Message content cannot be empty!");
+        return;
+    }
+
+    $.post("/users/send-message", {
+        receiverId: tutorId,
+        content: messageContent
+    }, function(response) {
+        if(response.success) {
+            alert("Message sent successfully.");
+            $('#messageModal-' + tutorId).modal('hide');
+        } else {
+            alert("Failed to send the message.");
+        }
+    });
+}
+
+    </script>
+</body>
+
+</html>

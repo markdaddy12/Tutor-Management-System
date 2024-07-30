@@ -1,0 +1,62 @@
+
+.navbar-light .navbar-nav .nav-link {
+    color: black; /* Default color of nav links */
+    font-family:sans-serif;
+    margin-right: 35px; /* Add right margin */
+    font-size:medium;
+    margin-left: 30px;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: purple; /* Color on hover */
+}
+.custom-card {
+    display: flex;
+    align-items: center;
+    border: none;
+    width:36rem; /* or you can specify a width, e.g., 36rem */
+    background: none;
+    padding: 0;
+    margin-top: 80px; /* Move card a little downward */
+    margin-left: 10px;
+
+}
+
+.custom-card img {
+    width: 100%; /* or adjust to your preferred size */
+    margin-right: 1rem;
+}
+
+.content {
+    flex: 1;
+    padding: 0;
+}
+
+.content h5 {
+    margin-top: 0;
+}
+.card-body h5.card-title {
+    font-size: 36px;
+    color: #fcb642;
+    line-height: 50px;
+    font-weight: 700;
+    white-space: nowrap; /* Prevent the text from wrapping */
+
+    
+}
+
+.card-body p.card-text {
+    color: #3a3a3a;
+    font-size: 16px;
+    padding-left: 51px;
+    padding-bottom: 10px;
+    line-height: 26px;
+
+}
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+}

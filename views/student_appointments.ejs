@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/student_dashboard.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5/main.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-8z4BE/uZ8e4N8x4MRMzAqOcT9ABGoanDEAPyZ+KMA0E0LNtSLv7op1XDfC2A7Kb3" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <style>
+        body {
+            background-image: url('/images/green.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:  rgba(255, 255, 255, 0.5);">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="/images/logobg.png" alt="Logo" style="width: 200px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/edit-profile">Edit Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/notifications">Notifications</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                  
+                 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/sent-messages"><i class="fas fa-envelope mr-2"></i>Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/login"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <h2 style="color: white; font-weight: bold; text-align: center; font-size:xx-large;">My Appointments</h2>
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th style="color: white; font-size:x-large;">Tutor</th>
+                    <th style="color: white;  font-size:x-large;">From Time</th>
+                    <th style="color: white;  font-size:x-large;">To Time</th>
+                    <th style="color: white;  font-size:x-large;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(appointments && appointments.length > 0) { %>
+                    <% appointments.forEach(appointment => { %>
+                        <tr>
+                            <td style="color: white; font-size:x-large;" ><%= appointment.tutorId.name %></td> <!-- Assuming tutorId is populated -->
+                            <td style="color: white; font-size:x-large;"><%= appointment.fromTime %></td>
+                            <td style="color: white; font-size:x-large;"><%= appointment.toTime %></td>
+                            <td style="color: white; font-size:x-large;"><%= appointment.status %></td>
+                            <td>
+                                <% if(appointment.status === "Accepted") { %>
+                                    <button class="btn btn-primary rateButton" data-tutorid="<%= appointment.tutorId._id %>">Rate</button>
+                              
+                                    <% } %>
+                                    
+                            </td
+                           
+                              
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">No appointments found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+            
+        </table>
+    
+    </div>
+    <div class="modal" tabindex="-1" id="ratingModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Rate the Tutor</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Select a rating:</p>
+              <select id="ratingSelect">
+                  <option value="1">1 Star</option>
+                  <option value="2">2 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="5">5 Stars</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="submitRating">Submit Rating</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+</body>
+<script>
+    $(document).ready(function() {
+        let currentTutorId;
+        $('.rateButton').click(function() {
+            currentTutorId = $(this).data('tutorid');
+            $('#ratingModal').modal('show');
+        });
+
+        $('#submitRating').click(function() {
+            const ratingValue = $('#ratingSelect').val();
+            $.post("/users/rate-tutor", { tutorId: currentTutorId, ratingValue: ratingValue }, function(data) {
+                if(data.success) {
+                    alert(data.message);
+                    $('#ratingModal').modal('hide');
+                } else {
+                    alert("Error: " + data.message);
+                }
+            });
+        });
+    });
+</script>
+</html>

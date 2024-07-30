@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sent Messages</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<script src="/javascripts/profileScript.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/tutor_dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/notifications.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/messages.css"></head>
+<style>
+        body {
+            background-image: url('/images/pic.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+    </style>
+<body>
+    
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:  rgba(255, 255, 255, 0.5);">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="/images/logobg.png" alt="Logo" style="width: 200px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/edit-profile">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/notifications">Notifications</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              
+             
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/sent-messages"><i class="fas fa-envelope mr-2"></i>Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/login"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<h1>Sent Messages</h1>
+<% 
+    if (sentMessages && sentMessages.length > 0) {
+        // Grouping the messages by receiver's ID
+        let groupedSentMessages = {};
+        sentMessages.forEach(message => {
+            if (!groupedSentMessages[message.receiverId._id]) {
+                groupedSentMessages[message.receiverId._id] = [];
+            }
+            groupedSentMessages[message.receiverId._id].push(message);
+        });
+
+        // Looping through each receiver and display their messages in a single box
+        for (let receiverId in groupedSentMessages) {
+            let messagesToReceiver = groupedSentMessages[receiverId];
+            let firstMessage = messagesToReceiver[0];
+%>
+            <div class="message">
+                <strong>To:</strong> <%= firstMessage.receiverId.username %><br>
+
+                <% messagesToReceiver.forEach(message => { %>
+                    <strong>Date:</strong> <%= message.date.toLocaleDateString() %> <%= message.date.toLocaleTimeString() %><br>
+                    <p><%= message.content %></p>
+                <% }); %>
+
+                <!-- The reply button and modal structure can be replicated here if needed -->
+
+                <hr>
+            </div>
+<% 
+        }
+    } else { 
+%>
+    <p>No sent messages found.</p>
+<% } %>
+<h1>Received Messages</h1>
+<% 
+    if (receivedMessages && receivedMessages.length > 0) {
+        // Grouping the messages by sender's ID
+        let groupedMessages = {};
+        receivedMessages.forEach(message => {
+            if (!groupedMessages[message.senderId._id]) {
+                groupedMessages[message.senderId._id] = [];
+            }
+            groupedMessages[message.senderId._id].push(message);
+        });
+        
+        // Looping through each sender and display their messages in a single box
+        for (let senderId in groupedMessages) {
+            let messagesFromSender = groupedMessages[senderId];
+            let firstMessage = messagesFromSender[0];
+%>
+            <div class="message">
+                <strong>From:</strong> <%= firstMessage.senderId.username %><br>
+
+                <% messagesFromSender.forEach(message => { %>
+                    <strong>Date:</strong> <%= message.date.toLocaleDateString() %> <%= message.date.toLocaleTimeString() %><br>
+                    <p><%= message.content %></p>
+                <% }); %>
+
+                <!-- Reply Button and Modal -->
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#replyModal-<%= senderId %>">Reply</button>
+                <div class="modal" id="replyModal-<%= senderId %>">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Reply to <%= firstMessage.senderId.username %></h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea id="replyContent-<%= senderId %>" class="form-control" placeholder="Type your reply here..."></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="sendMessage('<%= senderId %>','<%= senderId %>')">Send Reply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+<% 
+        }
+    } else { 
+%>
+    <p>No received messages found.</p>
+<% } %>
+
+</body>
+<script>
+    function sendMessage(receiverId, originalMessageId) {
+    const messageContent = document.getElementById(`replyContent-${originalMessageId}`).value;
+
+    if (!messageContent.trim()) {
+        alert("Reply content cannot be empty!");
+        return;
+    }
+
+    $.post("/users/send-message", {
+        receiverId: receiverId,
+        content: messageContent
+    }, function(response) {
+        if(response.success) {
+            alert("Reply sent successfully.");
+            $('#replyModal-' + originalMessageId).modal('hide');
+            location.reload(); // Optional: Reload the page to see the updated messages
+        } else {
+            alert("Failed to send the reply.");
+        }
+    });
+}
+
+</script>
+</html>

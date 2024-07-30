@@ -1,0 +1,85 @@
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background-color: #f4f4f4;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+h1 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    color: #444;
+    margin-top: 40px;
+}
+
+h3 {
+    margin-top: 30px;
+    color: #555;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+button.logout {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: 20px;
+}
+
+button.logout:hover {
+    background-color: #d32f2f;
+}
+
+</style>
+<button class="logout" onclick="location.href='/users/login'">Log Out</button>
+
+<h1>Admin Dashboard</h1>
+
+<h2>Metrics Overview</h2>
+<p>Total Students: <%= totalStudents %></p>
+<p>Total Tutors: <%= totalTutors %></p>
+<p>Active Appointments: <%= activeAppointments %></p>
+
+<h3>List of Students</h3>
+<ul>
+<% allStudents.forEach(student => { %>
+    <li>
+        <%= student.name %> (<%= student.email %>) 
+      
+    </li>
+<% }) %>
+</ul>
+<h3>List of Tutors</h3>
+<ul>
+<% allTutors.forEach(tutor => { %>
+    <li>
+        <%= tutor.name %> (<%= tutor.email %>) 
+        
+    </li>
+<% }) %>
+</ul>
+
